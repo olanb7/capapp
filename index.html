@@ -191,167 +191,159 @@
 <script src="http://olanb.eu:4001/socket.io/socket.io.js"></script>
 <script>
 
-	(function($){
-	    $.fn.disableSelection = function() {
-	        return this
-	                 .attr('unselectable', 'on')
-	                 .css('user-select', 'none')
-	                 .on('selectstart', false);
-	    };
-	})(jQuery);
+$(document).ready(function () {
 
-	$(document).ready(function () {
+	/**
+	 * this is all rather hacky. i'll sort it out, sometime.
+	 */
 
-		var socket,
-			tap = false,
-			clinical = '',
-			score = 0,
-			curb = {
-				0: {
-					'text': 'non-severe'
-				},
-				1: {
-					'text': 'non-severe'
-				},
-				2: {
-					'text': 'moderate'
-				},
-				3: {
-					'text': 'severe'
-				},
-				4: {
-					'text': 'severe'
-				},
-				5: {
-					'text': 'severe'
-				}
+	var socket,
+		tap = false,
+		clinical = '',
+		score = 0,
+		curb = {
+			0: {
+				'text': 'non-severe'
 			},
-			cap = {
-				'non-severe': {
-					'regimen': 'Amoxicillin 500mg – 1G 8 hourly PO',
-					'allergy': 'Doxycycline 100mg 12 hourly PO day 1, then 100mg 24 hourly PO',
-					'duration': '5 days'
-				},
-				'moderate': {
-					'regimen': 'Amoxicillin 1G 8 hourly PO/IV. If deteriorating at 24 hours or not improving at 48 hours add Clarithromycin 500mg 12 hourly PO/IV',
-					'allergy': 'Doxycycline 100mg 12 hourly PO',
-					'duration': '5 – 7 days'
-				},
-				'severe': {
-					'regimen': 'Amoxicillin 2G 8 hourly IV and Clarithromycin 500mg 12 hourly IV.<ul>' + 
-								'<li>If deterioration at 24 hours, change Amoxicillin to Co-amoxiclav 1.2G 8 hourly IV.</li>' +
-								'<li>If no improvement at 48 hours, change Amoxicillin to Co-amoxiclav 1.2G 8 hourly IV</li></ul>',
-					'allergy': 'Clarithromycin 500mg 12 hourly IV + Aztreonam 1G 8 hourly IV + Doxycycline 100mg 12 hourly PO ' +
-							    '<ul><li>If nil orally or S. aureus suspected; replace Doxycycline with Teicoplanin 10mg /kg 12 hourly ' +
-							    'IV x 3 doses, then 10mg / kg 24 hourly IV</li></ul>',
-					'duration': 'Review 24 hourly.<br />7 – 10 days'
-				}
-			};
-
-		if(io) {
-			socket = io.connect('http://olanb.eu:4001');
-		}
-
-
-		$('.option').bind('taphold', function (e) {
-			tapandhold($(this));
-		});
-
-		var tapandhold = function(node) {   
-
-			//console.log('taphold');
-			//console.log(node.offset().top);
-
-	      	if(node.find('.details').is(":hidden")) {
-
-		      	$('*').find('.details').slideUp();
-				node.find('.details').slideDown(200, function() {
-						//console.log(node.find('.details').offset().top);
-					    $('html, body').delay('200').animate({
-					    	scrollTop: node.find('.details').offset().top
-					    }, 200);
-				});
-
-			} else {
-				node.find('.details').slideUp();
+			1: {
+				'text': 'non-severe'
+			},
+			2: {
+				'text': 'moderate'
+			},
+			3: {
+				'text': 'severe'
+			},
+			4: {
+				'text': 'severe'
+			},
+			5: {
+				'text': 'severe'
+			}
+		},
+		cap = {
+			'non-severe': {
+				'regimen': 'Amoxicillin 500mg – 1G 8 hourly PO',
+				'allergy': 'Doxycycline 100mg 12 hourly PO day 1, then 100mg 24 hourly PO',
+				'duration': '5 days'
+			},
+			'moderate': {
+				'regimen': 'Amoxicillin 1G 8 hourly PO/IV. If deteriorating at 24 hours or not improving at 48 hours add Clarithromycin 500mg 12 hourly PO/IV',
+				'allergy': 'Doxycycline 100mg 12 hourly PO',
+				'duration': '5 – 7 days'
+			},
+			'severe': {
+				'regimen': 'Amoxicillin 2G 8 hourly IV and Clarithromycin 500mg 12 hourly IV.<ul>' + 
+							'<li>If deterioration at 24 hours, change Amoxicillin to Co-amoxiclav 1.2G 8 hourly IV.</li>' +
+							'<li>If no improvement at 48 hours, change Amoxicillin to Co-amoxiclav 1.2G 8 hourly IV</li></ul>',
+				'allergy': 'Clarithromycin 500mg 12 hourly IV + Aztreonam 1G 8 hourly IV + Doxycycline 100mg 12 hourly PO ' +
+						    '<ul><li>If nil orally or S. aureus suspected; replace Doxycycline with Teicoplanin 10mg /kg 12 hourly ' +
+						    'IV x 3 doses, then 10mg / kg 24 hourly IV</li></ul>',
+				'duration': 'Review 24 hourly.<br />7 – 10 days'
 			}
 		};
 
+	if(io) {
+		socket = io.connect('http://olanb.eu:4001');
+	}
 
-		$('#calc').bind('click',function() {
 
-			var inputs = $("#curb input:checked"),
-				score = inputs.length,
-				result = $('.num' + score),
-				confusion = $('#conf:checked').length,
-				respiratory = $('#resp:checked').length,
-				urea = $('#urea:checked').length,
-				bp = $('#bp:checked').length,
-				age = $('#age:checked').length;
+	$('.option').bind('taphold', function (e) {
+		tapandhold($(this));
+	});
 
-			result.addClass('result').css('color', curb[score]['color']);
+	var tapandhold = function(node) {   
 
-			// set score in the text
-			$('.score.inline').html(score);
+      	if(node.find('.details').is(":hidden")) {
 
-			// set the diagnosis
-			$('.diagnosis.inline').html(curb[score]['text']).css('color', curb[score]['color']);
+	      	$('*').find('.details').slideUp();
 
-			severity = curb[score]['text'];
-			$('.severity').html(severity);
-
-			$('#three .regimen').html(cap[severity].regimen);
-			$('#three .allergy').html(cap[severity].allergy);
-			$('#three .duration').html(cap[severity].duration);
-
-			if (severity === 'non-severe') {
-				$('.warn').hide();
-			} else {
-				$('.warn').show();
-			}
-
-			if (socket) {
-				socket.emit('score', {
-					score: score,
-					confusion: confusion,
-					respiratory: respiratory,
-					urea: urea,
-					age: age,
-					bp: bp
-				});
-			}
-		});
-
-		$('.restart').bind('click', function(e) {
-			$("#curb input").attr("checked",false).checkboxradio("refresh");
-			$('.result').removeClass('result');
-			score = 0;
-		});
-
-		$('.radiobttns input').bind('click', function(e) {
-			severity = $(this).val();
-	        $('.severity').html(severity);
-
-			$('#three .regimen').html(cap[severity].regimen);
-			$('#three .allergy').html(cap[severity].allergy);
-			$('#three .duration').html(cap[severity].duration);
-
-			if (severity === 'non-severe') {
-				$('.warn').hide();
-			} else {
-				$('.warn').show();
-			}
-
-	        window.location.href = '#three';
-		});
-
-		if (socket) {
-			socket.on('updates', function (data) {
-				//console.log(data);
+			node.find('.details').slideDown(200, function() {
+				    $('html, body').delay('200').animate({
+				    	scrollTop: node.find('.details').offset().top
+				    }, 200);
 			});
+
+		} else {
+			node.find('.details').slideUp();
+		}
+	};
+
+
+	$('#calc').bind('click',function() {
+
+		var inputs = $("#curb input:checked"),
+			score = inputs.length,
+			result = $('.num' + score),
+			confusion = $('#conf:checked').length,
+			respiratory = $('#resp:checked').length,
+			urea = $('#urea:checked').length,
+			bp = $('#bp:checked').length,
+			age = $('#age:checked').length;
+
+		result.addClass('result').css('color', curb[score]['color']);
+
+		// set score in the text
+		$('.score.inline').html(score);
+
+		// set the diagnosis
+		$('.diagnosis.inline').html(curb[score]['text']).css('color', curb[score]['color']);
+
+		severity = curb[score]['text'];
+		$('.severity').html(severity);
+
+		$('#three .regimen').html(cap[severity].regimen);
+		$('#three .allergy').html(cap[severity].allergy);
+		$('#three .duration').html(cap[severity].duration);
+
+		if (severity === 'non-severe') {
+			$('.warn').hide();
+		} else {
+			$('.warn').show();
 		}
 
+		if (socket) {
+			socket.emit('score', {
+				score: score,
+				confusion: confusion,
+				respiratory: respiratory,
+				urea: urea,
+				age: age,
+				bp: bp
+			});
+		}
 	});
+
+	$('.restart').bind('click', function(e) {
+		$("#curb input").attr("checked",false).checkboxradio("refresh");
+		$('.result').removeClass('result');
+		score = 0;
+	});
+
+	$('.radiobttns input').bind('click', function(e) {
+		severity = $(this).val();
+        $('.severity').html(severity);
+
+		$('#three .regimen').html(cap[severity].regimen);
+		$('#three .allergy').html(cap[severity].allergy);
+		$('#three .duration').html(cap[severity].duration);
+
+		if (severity === 'non-severe') {
+			$('.warn').hide();
+		} else {
+			$('.warn').show();
+		}
+
+        window.location.href = '#three';
+	});
+
+	if (socket) {
+		socket.on('updates', function (data) {
+			//console.log(data);
+		});
+	}
+
+});
 </script>
 
 </html>
