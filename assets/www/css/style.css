@@ -1,0 +1,96 @@
+.lighter {
+	font-weight: 100;
+}
+.info {
+	display:inline-block;
+	float: right;
+	padding-left:10px;
+	padding-right:10px;
+}
+.alternate {
+	line-height: 1.7em;
+    font-style: italic;
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: center;
+}
+.center {
+	text-align:center;
+}
+.hidden {
+	display:none;
+}
+.score {
+	width: 100%;
+	text-align:center;
+}
+.number {
+	font-size: 15px;
+	padding: 0 2% 0 2%;
+	color: #bbb;
+}
+.number.num1 {
+	font-size: 20px;
+}
+.number.num1.result {
+	color: #ff0000;
+}
+.number.num2 {
+	font-size: 25px;
+}
+.number.num2.result {
+	color: #ff0000;
+}
+.number.num3 {
+	font-size: 30px;
+}
+.number.num3.result {
+	color: #ff0000;
+}
+.number.num4 {
+	font-size: 35px;
+}
+.number.num4.result {
+	color: #ff0000;
+}
+.number.num5 {
+	font-size: 40px;
+}
+.number.num5.result {
+	color: #ff0000;
+}
+.number.result {
+	font-size: 50px;
+	text-decoration: underline;
+	font-weight: bold;
+}
+.diagnosis {
+	font-weight: bold;
+}
+.details {
+	border: 1px solid #CCC;
+	background: #EEE;
+	color: #222;
+	text-shadow: 0 1px 0 white;
+	padding: 10px;
+}
+.radios {
+    text-align: center;
+}
+.radios fieldset {
+    display: inline-block;
+}
+.ui-field-contain .ui-controlgroup-controls {
+	width: 100%;
+}
+.curb-info {
+	text-align: center;
+}
+.severity {
+	color: #ff0000;
+	text-transform: uppercase;
+}
+.reminder {
+	padding: 10px;
+	text-align: center;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html> 
+<html>
+
+	<head>
+		<link href='http://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+		<style>
+		html, body { 
+			margin: 0; padding: 0;
+			font-family: 'Dosis', sans-serif;
+		}
+		.right {
+			position:relative;
+		}
+		.graph {
+			width:800px;
+			margin: auto 0;
+		}
+		svg text {
+			font-size:22px;
+			fill: black;
+		}
+		.score {
+			fill: white;
+		}
+		</style>
+	</head> 
+	<body>
+	<h3>CURB App usage live stats</h3>
+	<div class=graph>
+		<div id='curb' class=right></div>
+		<div id='nodes'></div>
+	</div>
+	</body>
+<script src="http://olanb.eu:4001/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script src="http://d3js.org/d3.v2.min.js"></script>
+<script src="http://olanb.eu/cap/graphs.js"></script>
+</html>

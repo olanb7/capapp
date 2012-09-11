@@ -1,0 +1,357 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>NHS SET Curb Guideline App</title>
+
+	<link rel="stylesheet" href="assets/www/css/jquery.mobile-1.1.1.min.css" />
+	<link rel="stylesheet" href="assets/www/css/style.css" />
+
+	<!-- need to be in the head -->
+	<script src="assets/www/js/jquery-1.7.1.min.js"></script>
+	<script src="assets/www/js/jquery.mobile-1.1.1.min.js"></script>
+</head> 
+
+<body> 
+
+<!-- Start of first page: #one -->
+<div data-role="page" id="one">
+
+	<div data-role="header">
+		<h1>CAP<i style='font-weight: lighter'>app</i></h1>
+	</div><!-- /header -->
+
+	<div data-role="content" >
+
+		<p>Check the options that apply, or hold for more info..</p>
+
+		<fieldset data-role="controlgroup" id='curb'>
+			<div class=option>
+				<label><input type="checkbox" name="conf" id="conf" />C<span class=lighter>onfusion</span></label>
+				<div class='details hidden'>
+					New mental confusion defined as abbreviated mental test score of &le;8.
+					<ul>
+						<li>What is your age?</li>
+						<li>What is the time to the nearest hour? </li>
+						<li>Give the patient an address, and ask him or her to repeat it at the end of the test.</li>
+						<li>What is the year?</li>
+						<li>What is the name of the hospital or number of the residence where the patient is situated?</li> 
+						<li>Can the patient recognize two persons (the doctor, nurse, home help, etc.)?</li>
+						<li>What is your date of birth? (day and month sufficient)</li>
+						<li>In what year did World War 1 begin?</li>
+						<li>Name the present monarch/dictator/prime minister/president.
+						<li>Count backwards from 20 down to 1. (1 point)</li>
+					</ul>
+				</div>
+			</div>
+			<div class=option>
+				<label>
+					<input type="checkbox" name="urea" id="urea" />U<span class=lighter>rea &ge;7mmol/l</span>
+				</label>
+				<div class='details hidden'>
+					This can have less significance in older patients given the likelihood of dehydration and chronic renal impairment with over 65s.
+				</div>
+			</div>
+			<div class=option>
+				<label>
+					<input type="checkbox" name="resp" id="resp" />R<span class=lighter>espiratory &ge; 30 breaths/min</span>
+				</label>
+				<div class='details hidden'>
+					A raised respiratory rate has emerged as one of the most reliable indicators of disease severity across all age groups. Although a linear correlation of respiratory rate with mortality has been reported, in clinical practice a respiratory rate of 30 breaths/min or more is accepted as indicating severe disease.
+				</div>
+			</div>
+			<div class=option>
+				<label>
+					<input type="checkbox" name="bp" id="bp" />B<span class=lighter>lood Pressure &lt;90 mmHg systolic or &le;60 mmHg diastolic</span>
+				</label>
+				<div class='details hidden'>
+					A low systolic (&lt;90 mm Hg) or diastolic (&le;60 mm Hg) blood pressure or the presence of septic shock on admission to hospital are recognised poor prognostic factors.
+				</div>
+			</div>
+			<div class=option>
+				<label>
+					<input type="checkbox" name="age" id="age" />65<span class=lighter> years old or above</span>
+				</label>
+				<div class='hidden'>
+					Age.
+				</div>
+			</div>
+		</fieldset>
+
+		<p><a href="#two" id='calc' data-role="button" data-theme="a">Calculate CURB</a></p>
+
+		<div class=alternate>or</div>
+
+		<div data-role="fieldcontain" class=radios>
+			<h4>Select based on clinical assessment:</h4>
+		    <fieldset data-role="controlgroup" data-type="horizontal" class='radiobttns'>
+		         	<input type="radio" name="radio-view" id="mild" value="non-severe"  />
+		         	<label for="mild">Mild</label>
+		         	<input type="radio" name="radio-view" id="moderate" value="moderate"  />
+		         	<label for="moderate">Moderate</label>
+		         	<input type="radio" name="radio-view" id="severe" value="severe"  />
+		         	<label for="severe">Severe</label>
+		    </fieldset>
+		</div>
+
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-theme="a">
+		<h5>NHS South Eastern Trust</h5>
+	</div><!-- /footer -->
+</div><!-- /page one -->
+
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="two">
+
+	<div data-role="header">
+		<h1>CAP<i style='font-weight: lighter'>app</i></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		<div class=score>
+			<span class='number num0'>0</span>
+			<span class='number num1'>1</span>
+			<span class='number num2'>2</span>
+			<span class='number num3'>3</span>
+			<span class='number num4'>4</span>
+			<span class='number num5'>5</span>
+		</div>
+		<div class=curb-info>
+			The CURB65 score is <span class='score inline'></span>.
+			This indicates a <span class='diagnosis inline'></span> community acquired pneumonia.
+		</div>
+
+		<p>
+			<a href="#three" data-role="button" data-theme="a" data-icon="arrow-r" data-iconpos="right">
+				Suggested antibiotics<br />from SET guidelines
+			</a>
+			<a href="#one" class='restart' data-rel="back" data-role="button" data-icon="back">Start again</a>
+		</p>
+	</div><!-- /content -->
+	
+
+
+	<div data-role="footer">
+		<h5>NHS South Eastern Trust</h5>
+	</div><!-- /footer -->
+</div><!-- /page two -->
+
+
+<!-- Start of third page -->
+<div data-role="page" id="three">
+
+	<div data-role="header" data-theme="a">
+		<h1>CAP<i style='font-weight: lighter'>app</i></h1>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="a">
+
+		<center>
+			<p>Recommended Antibiotics</p>
+			<h2 class=severity></h2>
+		</center>
+
+		<div data-role="collapsible-set" data-theme="c" data-content-theme="d">
+			<div data-role="collapsible">
+				<h3>Preferred Regimen</h3>
+				<p class='regimen'></p>
+			</div>
+
+			<div data-role="collapsible">
+				<h3>Penicillin Allergy</h3>
+				<p class='allergy'></p>
+			</div>
+
+			<div data-role="collapsible">
+				<h3>Suggested Duration</h3>
+				<p class='duration'></p>
+			</div>
+		</div>
+
+		<div class="ui-grid-solo warn">
+			<div class="ui-block-a ui-bar ui-bar-c reminder">Remember to test for legionella and pneumococcal urinary antigens</div>
+		</div>
+
+		<p>
+			<a href="http://www.brit-thoracic.org.uk/Portals/0/Clinical%20Information/Pneumonia/Guidelines/MACAP2001gline.pdf" data-role="button" data-inline="true">View latest BTS guidelines</a>
+			<a href="#one" class='restart' data-role="button" data-inline="true" data-icon="back">Start again</a>
+		</p>	
+	</div><!-- /content -->
+	
+	<div data-role="footer">
+		<h5>NHS South Eastern Trust</h5>
+	</div><!-- /footer -->
+</div><!-- /page popup -->
+
+</body>
+<script src="http://olanb.eu:4001/socket.io/socket.io.js"></script>
+<script>
+
+	(function($){
+	    $.fn.disableSelection = function() {
+	        return this
+	                 .attr('unselectable', 'on')
+	                 .css('user-select', 'none')
+	                 .on('selectstart', false);
+	    };
+	})(jQuery);
+
+	$(document).ready(function () {
+
+		var socket,
+			tap = false,
+			clinical = '',
+			score = 0,
+			curb = {
+				0: {
+					'text': 'non-severe'
+				},
+				1: {
+					'text': 'non-severe'
+				},
+				2: {
+					'text': 'moderate'
+				},
+				3: {
+					'text': 'severe'
+				},
+				4: {
+					'text': 'severe'
+				},
+				5: {
+					'text': 'severe'
+				}
+			},
+			cap = {
+				'non-severe': {
+					'regimen': 'Amoxicillin 500mg – 1G 8 hourly PO',
+					'allergy': 'Doxycycline 100mg 12 hourly PO day 1, then 100mg 24 hourly PO',
+					'duration': '5 days'
+				},
+				'moderate': {
+					'regimen': 'Amoxicillin 1G 8 hourly PO/IV. If deteriorating at 24 hours or not improving at 48 hours add Clarithromycin 500mg 12 hourly PO/IV',
+					'allergy': 'Doxycycline 100mg 12 hourly PO',
+					'duration': '5 – 7 days'
+				},
+				'severe': {
+					'regimen': 'Amoxicillin 2G 8 hourly IV and Clarithromycin 500mg 12 hourly IV.<ul>' + 
+								'<li>If deterioration at 24 hours, change Amoxicillin to Co-amoxiclav 1.2G 8 hourly IV.</li>' +
+								'<li>If no improvement at 48 hours, change Amoxicillin to Co-amoxiclav 1.2G 8 hourly IV</li></ul>',
+					'allergy': 'Clarithromycin 500mg 12 hourly IV + Aztreonam 1G 8 hourly IV + Doxycycline 100mg 12 hourly PO ' +
+							    '<ul><li>If nil orally or S. aureus suspected; replace Doxycycline with Teicoplanin 10mg /kg 12 hourly ' +
+							    'IV x 3 doses, then 10mg / kg 24 hourly IV</li></ul>',
+					'duration': 'Review 24 hourly.<br />7 – 10 days'
+				}
+			};
+
+		if(io) {
+			socket = io.connect('http://olanb.eu:4001');
+		}
+
+
+		$('.option').bind('taphold', function (e) {
+			tapandhold($(this));
+		});
+
+		var tapandhold = function(node) {   
+
+			//console.log('taphold');
+			//console.log(node.offset().top);
+
+	      	if(node.find('.details').is(":hidden")) {
+
+		      	$('*').find('.details').slideUp();
+				node.find('.details').slideDown(200, function() {
+						//console.log(node.find('.details').offset().top);
+					    $('html, body').delay('200').animate({
+					    	scrollTop: node.find('.details').offset().top
+					    }, 200);
+				});
+
+			} else {
+				node.find('.details').slideUp();
+			}
+		};
+
+
+		$('#calc').bind('click',function() {
+
+			var inputs = $("#curb input:checked"),
+				score = inputs.length,
+				result = $('.num' + score),
+				confusion = $('#conf:checked').length,
+				respiratory = $('#resp:checked').length,
+				urea = $('#urea:checked').length,
+				bp = $('#bp:checked').length,
+				age = $('#age:checked').length;
+
+			result.addClass('result').css('color', curb[score]['color']);
+
+			// set score in the text
+			$('.score.inline').html(score);
+
+			// set the diagnosis
+			$('.diagnosis.inline').html(curb[score]['text']).css('color', curb[score]['color']);
+
+			severity = curb[score]['text'];
+			$('.severity').html(severity);
+
+			$('#three .regimen').html(cap[severity].regimen);
+			$('#three .allergy').html(cap[severity].allergy);
+			$('#three .duration').html(cap[severity].duration);
+
+			if (severity === 'non-severe') {
+				$('.warn').hide();
+			} else {
+				$('.warn').show();
+			}
+
+			if (socket) {
+				socket.emit('score', {
+					score: score,
+					confusion: confusion,
+					respiratory: respiratory,
+					urea: urea,
+					age: age,
+					bp: bp
+				});
+			}
+		});
+
+		$('.restart').bind('click', function(e) {
+			$("#curb input").attr("checked",false).checkboxradio("refresh");
+			$('.result').removeClass('result');
+			score = 0;
+		});
+
+		$('.radiobttns input').bind('click', function(e) {
+			severity = $(this).val();
+	        $('.severity').html(severity);
+
+			$('#three .regimen').html(cap[severity].regimen);
+			$('#three .allergy').html(cap[severity].allergy);
+			$('#three .duration').html(cap[severity].duration);
+
+			if (severity === 'non-severe') {
+				$('.warn').hide();
+			} else {
+				$('.warn').show();
+			}
+
+	        window.location.href = '#three';
+		});
+
+		if (socket) {
+			socket.on('updates', function (data) {
+				//console.log(data);
+			});
+		}
+
+	});
+</script>
+
+</html>
