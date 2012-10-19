@@ -30,7 +30,7 @@
 	    </center>
 
 		<div class="ui-grid-solo warn" data-theme="a">
-			<div class="ui-block-a ui-bar ui-bar-a ui-corner-all reminder">
+			<div class="ui-block-a ui-bar ui-bar-a ui-corner-all 	reminder">
 				This does not provide guidance on the management of hospital acquired or aspiration pneumonias.
 			</div>
 		</div>
@@ -232,22 +232,16 @@ $('#splash').live('pageshow', function(){
 });
 
 $('#three').live('pagebeforeshow', function(event){
-	console.log('This page was just hidden');
 	var go = $.cookie(COOKIE_NAME);
 
-	console.log(go);
-
 	if (go == null) {
-		console.log('count is null, setting to 1');
 		$.cookie(COOKIE_NAME, '0', { path: '/', expires: 6 });
 	} else {
 
 		if (go >= 5) {
-			console.log('count is ' + go + ', resetting to 1');
 			$.cookie(COOKIE_NAME, '1', { path: '/', expires: 6 });
 		} else {
 			var newCount = new String(parseInt(go, 10) + 1);
-			console.log('count is ' + go + ', setting to ' + newCount);
 			$.cookie(COOKIE_NAME, newCount, { path: '/', expires: 6 });
 		}
 	}
