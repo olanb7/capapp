@@ -6,15 +6,37 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<title>NHS SET Curb Guideline App</title>
 
-	<link rel="stylesheet" href="assets/www/css/jquery.mobile-1.1.1.min.css" />
+	<link rel="stylesheet" href="assets/www/css/jquery.mobile-1.2.0.min.css" />
 	<link rel="stylesheet" href="assets/www/css/style.css" />
 
 	<!-- need to be in the head -->
 	<script src="assets/www/js/jquery-1.7.1.min.js"></script>
-	<script src="assets/www/js/jquery.mobile-1.1.1.min.js"></script>
+	<script src="assets/www/js/jquery.mobile-1.2.0.min.js"></script>
+	<script src="assets/www/js/jquery.cookie.js"></script>
 </head> 
 
 <body> 
+
+<!-- splash screen -->
+<div data-role="page" id="splash"> 
+    <div data-role="content">
+    	<center>
+	        <h3 class='splash-text'>A step-by-step guide through the management of</h3>
+	        <h1 class='splash-title'>
+	        	COMMUNITY<br/>
+	        	ACQUIRED<br/>
+	        	PNEUMONIA<br/>
+	        </h1>
+	    </center>
+
+		<div class="ui-grid-solo warn" data-theme="a">
+			<div class="ui-block-a ui-bar ui-bar-a ui-corner-all reminder">
+				This does not provide guidance on the management of hospital acquired or aspiration pneumonias.
+			</div>
+		</div>
+
+    </div>
+</div>
 
 <!-- Start of first page: #one -->
 <div data-role="page" id="one">
@@ -140,7 +162,6 @@
 	</div><!-- /footer -->
 </div><!-- /page two -->
 
-
 <!-- Start of third page -->
 <div data-role="page" id="three">
 
@@ -182,6 +203,16 @@
 		</p>	
 	</div><!-- /content -->
 	
+	<div data-role="popup" id="popupWarning" data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
+		<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+			<center>
+				<h3 class="ui-title">Have the antibiotics been given yet?</h3>
+				<p>Every hour you wait increases patient mortality.</p>
+				<a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="b">OK</a>
+			</center>
+		</div>
+	</div>
+
 	<div data-role="footer">
 		<h5>NHS South Eastern Trust</h5>
 	</div><!-- /footer -->
@@ -190,6 +221,48 @@
 </body>
 <script src="http://olanb.eu:4001/socket.io/socket.io.js"></script>
 <script>
+
+var COOKIE_NAME = 'antibiotic-dialog-cookie';
+
+$('#splash').live('pageshow', function(){
+	var hideSplash = function() {
+	   $.mobile.changePage($("#one"));
+	};
+	setTimeout(hideSplash, 2000);
+});
+
+$('#three').live('pagebeforeshow', function(event){
+	console.log('This page was just hidden');
+	var go = $.cookie(COOKIE_NAME);
+
+	console.log(go);
+
+	if (go == null) {
+		console.log('count is null, setting to 1');
+		$.cookie(COOKIE_NAME, '0', { path: '/', expires: 6 });
+	} else {
+
+		if (go >= 5) {
+			console.log('count is ' + go + ', resetting to 1');
+			$.cookie(COOKIE_NAME, '1', { path: '/', expires: 6 });
+		} else {
+			var newCount = new String(parseInt(go, 10) + 1);
+			console.log('count is ' + go + ', setting to ' + newCount);
+			$.cookie(COOKIE_NAME, newCount, { path: '/', expires: 6 });
+		}
+	}
+});
+
+$('#three').live('pageshow', function(event){
+
+	var count = $.cookie(COOKIE_NAME);
+
+	// warn user the first time, and every 5 times (at least once every 6 days)
+	if (count >= 5 || count == 0) {
+		$('#popupWarning').popup();
+		$('#popupWarning').popup('open');
+	}
+});
 
 $(document).ready(function () {
 
