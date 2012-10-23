@@ -239,24 +239,23 @@ $('#splash').live('pageshow', function(){
 });
 
 $('#three').live('pagebeforeshow', function(event){
-	var go = $.cookie(COOKIE_NAME);
+	var count = localStorage.getItem(COOKIE_NAME);
 
-	if (go == null) {
-		$.cookie(COOKIE_NAME, '0', { path: '/', expires: 6 });
+	if (count == null) {
+		localStorage.setItem(COOKIE_NAME, '0');
 	} else {
-
-		if (go >= 5) {
-			$.cookie(COOKIE_NAME, '1', { path: '/', expires: 6 });
+		if (count >= 5) {
+			localStorage.setItem(COOKIE_NAME, '1');
 		} else {
-			var newCount = new String(parseInt(go, 10) + 1);
-			$.cookie(COOKIE_NAME, newCount, { path: '/', expires: 6 });
+			var newCount = new String(parseInt(count, 10) + 1);
+			localStorage.setItem(COOKIE_NAME, newCount);
 		}
 	}
 });
 
 $('#three').live('pageshow', function(event){
 
-	var count = $.cookie(COOKIE_NAME);
+	var count = localStorage.getItem(COOKIE_NAME);
 
 	// warn user the first time, and every 5 times (at least once every 6 days)
 	if (count >= 5 || count == 0) {
