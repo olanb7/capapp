@@ -23,27 +23,6 @@
 
 <body> 
 
-<!-- splash screen -->
-<div data-role="page" id="splash"> 
-    <div data-role="content">
-    	<center>
-	        <h3 class='splash-text'>A step-by-step guide through the management of</h3>
-	        <h1 class='splash-title'>
-	        	COMMUNITY<br/>
-	        	ACQUIRED<br/>
-	        	PNEUMONIA<br/>
-	        </h1>
-	    </center>
-
-		<div class="ui-grid-solo warn" data-theme="a">
-			<div class="ui-block-a ui-bar ui-bar-a ui-corner-all 	reminder">
-				This does not provide guidance on the management of hospital acquired or aspiration pneumonias.
-			</div>
-		</div>
-
-    </div>
-</div>
-
 <!-- Start of first page: #one -->
 <div data-role="page" id="one">
 
@@ -228,13 +207,6 @@
 <script>
 
 var COOKIE_NAME = 'antibiotic-dialog-cookie';
-
-$('#splash').live('pageshow', function(){
-	var hideSplash = function() {
-	   $.mobile.changePage($("#one"));
-	};
-	setTimeout(hideSplash, 2000);
-});
 
 $('#three').live('pagebeforeshow', function(event){
 	var count = localStorage.getItem(COOKIE_NAME);
