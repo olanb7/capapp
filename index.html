@@ -19,7 +19,6 @@
 	<!-- need to be in the head -->
 	<script src="assets/www/js/jquery-1.7.1.min.js"></script>
 	<script src="assets/www/js/jquery.mobile-1.2.0.min.js"></script>
-	<script src="assets/www/js/jquery.cookie.js"></script>
 </head> 
 
 <body> 
@@ -226,7 +225,6 @@
 </div><!-- /page popup -->
 
 </body>
-<script src="http://olanb.eu:4001/socket.io/socket.io.js"></script>
 <script>
 
 var COOKIE_NAME = 'antibiotic-dialog-cookie';
@@ -270,8 +268,7 @@ $(document).ready(function () {
 	 * this is all rather hacky. i'll sort it out, sometime.
 	 */
 
-	var socket,
-		tap = false,
+	var tap = false,
 		clinical = '',
 		score = 0,
 		curb = {
@@ -315,11 +312,6 @@ $(document).ready(function () {
 				'duration': 'Review 24 hourly.<br />7 – 10 days'
 			}
 		};
-
-	if(io) {
-		socket = io.connect('http://olanb.eu:4001');
-	}
-
 
 	$('.option').bind('taphold', function (e) {
 		tapandhold($(this));
@@ -375,16 +367,6 @@ $(document).ready(function () {
 			$('.warn').show();
 		}
 
-		if (socket) {
-			socket.emit('score', {
-				score: score,
-				confusion: confusion,
-				respiratory: respiratory,
-				urea: urea,
-				age: age,
-				bp: bp
-			});
-		}
 	});
 
 	$('.restart').bind('click', function(e) {
@@ -409,12 +391,6 @@ $(document).ready(function () {
 
         window.location.href = '#three';
 	});
-
-	if (socket) {
-		socket.on('updates', function (data) {
-			//console.log(data);
-		});
-	}
 
 });
 </script>
