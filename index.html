@@ -187,7 +187,7 @@
 		</div>
 
 		<p>
-			<a href="http://www.brit-thoracic.org.uk/Portals/0/Clinical%20Information/Pneumonia/Guidelines/CAPGuideline-full.pdf" data-role="button" data-inline="true">View latest BTS guidelines</a>
+			<a class="ext-guidelines" data-role="button" data-inline="true">View latest BTS guidelines</a>
 			<a href="#one" class='restart' data-role="button" data-inline="true" data-icon="back">Start again</a>
 		</p>	
 	</div><!-- /content -->
@@ -367,6 +367,11 @@ $(document).ready(function () {
 
         window.location.href = '#three';
 	});
+
+    $('.ext-guidelines').bind('click', function() {
+      var url = 
+      window.open('http://www.brit-thoracic.org.uk/Portals/0/Guidelines/Pneumonia/CAPQuickRefGuide-web.pdf', '_blank', 'location=yes');
+    });
 
 });
 </script>

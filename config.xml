@@ -42,9 +42,6 @@
     <icon src="res/icon/windows-phone/icon-173.png" gap:platform="winphone"   gap:role="background" />
     -->
 
-    <!-- childbrowser plugin -->
-    <gap:plugin name="ChildBrowser" />
-
     <!-- splash screens -->
     <gap:splash src="assets/www/res/screen/android/screen-ldpi-portrait.png"  gap:platform="android" gap:density="ldpi" />
     <gap:splash src="assets/www/res/screen/android/screen-mdpi-portrait.png"  gap:platform="android" gap:density="mdpi" />
